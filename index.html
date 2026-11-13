@@ -1,318 +1,418 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AgeWise is a free online age calculator. Calculate your exact age in years, months, days, and total days.">
-  <meta name="theme-color" content="#090d1b">
-  <title>AgeWise — Free Online Age Calculator</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #090d1b;
-      --text: #f4f7ff;
-      --muted: #9aa8c5;
-      --line: rgba(157, 178, 225, .16);
-      --blue: #6d8cff;
-      --cyan: #51d6e8;
-      --purple: #a77bff;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d1b">
+<title>AgeWise - Age Calculator</title>
+<meta name="description" content="Calculate your exact age in years, months and days with AgeWise.">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #080d1b;
+    color: #fff;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #111a2e;
+    padding: 30px 22px;
+    border-radius: 20px;
+    border: 1px solid #263451;
+    box-shadow: 0 10px 40px #0005;
+}
+
+.logo {
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    color: #38d9ff;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #aab6cc;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 23px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #dce7ff;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #354666;
+    background: #080f20;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 20px;
+    color-scheme: dark;
+}
+
+.calculate-btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #19c9ed, #7166ff);
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.calculate-btn:active {
+    transform: scale(.98);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 25px;
+    color: #8492aa;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* FULL SCREEN POPUP */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, .82);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    z-index: 99999;
+}
+
+.popup-overlay.show {
+    display: flex;
+}
+
+.popup {
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #111a2e;
+    border: 1px solid #34466c;
+    border-radius: 20px;
+    padding: 25px 20px;
+    position: relative;
+    text-align: center;
+    box-shadow: 0 15px 60px #0009;
+    animation: popupIn .25s ease;
+}
+
+@keyframes popupIn {
+    from {
+        opacity: 0;
+        transform: scale(.85);
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; padding: 28px 16px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse at 12% 8%, rgba(74, 105, 255, .22), transparent 34%),
-        radial-gradient(ellipse at 88% 22%, rgba(126, 74, 222, .18), transparent 32%),
-        radial-gradient(ellipse at 50% 100%, rgba(35, 183, 205, .10), transparent 38%),
-        var(--bg);
-      display: flex; align-items: center; justify-content: center;
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
-    body.modal-open { overflow: hidden; }
-    .page { width: 100%; max-width: 760px; }
-    .topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 2px 18px; }
-    .brand { display: flex; align-items: center; gap: 10px; color: #e9efff; font-weight: 750; letter-spacing: .2px; }
-    .brand-mark {
-      width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px;
-      color: white; background: linear-gradient(135deg, var(--blue), var(--purple));
-      box-shadow: 0 7px 24px rgba(109, 140, 255, .28);
-    }
-    .privacy { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 6px; }
-    .privacy-dot { width: 7px; height: 7px; border-radius: 50%; background: #55d6a4; box-shadow: 0 0 12px #55d6a4; }
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    background: #263451;
+    border: none;
+    color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.popup h2 {
+    color: #38d9ff;
+    margin: 10px 0 22px;
+}
+
+.result-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.result-box {
+    background: #1b2943;
+    border: 1px solid #354766;
+    border-radius: 12px;
+    padding: 15px 5px;
+}
+
+.result-box strong {
+    display: block;
+    font-size: 28px;
+    color: #38d9ff;
+}
+
+.result-box span {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #b6c3d9;
+}
+
+.extra-result {
+    background: #1b2943;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 10px;
+    color: #dce7ff;
+    line-height: 1.7;
+}
+
+.extra-result strong {
+    color: #38d9ff;
+}
+
+.close-main-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #19c9ed, #7166ff);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.error {
+    color: #ff8585;
+    font-size: 14px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+@media(max-width: 380px) {
     .container {
-      position: relative; overflow: hidden; width: 100%; padding: clamp(24px, 5vw, 44px);
-      border: 1px solid var(--line); border-radius: 28px;
-      background: linear-gradient(145deg, rgba(22, 31, 56, .96), rgba(13, 19, 37, .96));
-      box-shadow: 0 28px 90px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255,255,255,.04);
+        padding: 25px 17px;
     }
-    .container::before {
-      content: ""; position: absolute; width: 240px; height: 240px; border-radius: 50%;
-      right: -115px; top: -145px; background: rgba(112, 111, 255, .17); filter: blur(4px); pointer-events: none;
-    }
-    .hero { position: relative; text-align: center; margin-bottom: 30px; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px;
-      color: #b8c7ff; background: rgba(109, 140, 255, .11); border: 1px solid rgba(109, 140, 255, .22);
-      font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-    }
-    h1 { margin: 17px 0 10px; font-size: clamp(34px, 7vw, 52px); line-height: 1.08; letter-spacing: -1.8px; }
-    h1 span { background: linear-gradient(90deg, #8da8ff, #69d9ec 55%, #b18aff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .intro { max-width: 510px; margin: 0 auto; color: var(--muted); line-height: 1.7; font-size: 15px; }
-    .form-panel {
-      position: relative; padding: 22px; border: 1px solid var(--line); border-radius: 20px;
-      background: rgba(7, 12, 26, .42);
-    }
-    label { display: block; margin: 0 0 10px; color: #e7edff; font-size: 14px; font-weight: 700; }
-    input[type="date"] {
-      display: block; width: 100%; min-height: 56px; padding: 14px 16px;
-      border: 1px solid rgba(151, 173, 222, .23); border-radius: 13px;
-      color: var(--text); background: #111a30; font: inherit; font-size: 16px;
-      color-scheme: dark; outline: none; transition: border-color .2s, box-shadow .2s;
-    }
-    input[type="date"]:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(109, 140, 255, .14); }
-    .hint { margin: 9px 0 0; color: #8291b0; font-size: 12px; }
-    button {
-      width: 100%; min-height: 56px; margin-top: 16px; border: 0; border-radius: 13px;
-      padding: 15px 18px; color: white; font: inherit; font-weight: 800; font-size: 15px;
-      background: linear-gradient(100deg, #5279f5, #7865ed 58%, #8a60df);
-      box-shadow: 0 10px 25px rgba(91, 105, 239, .25); cursor: pointer;
-      transition: transform .18s, filter .18s, box-shadow .18s;
-    }
-    button:hover { filter: brightness(1.09); transform: translateY(-1px); box-shadow: 0 13px 30px rgba(91, 105, 239, .34); }
-    button:active { transform: translateY(0); }
-    button:focus-visible { outline: 3px solid #a9baff; outline-offset: 3px; }
-    .message { min-height: 20px; margin-top: 12px; color: #ff9caa; font-size: 13px; text-align: center; }
 
-    /* Popup overlay and result window */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 1000;
-      padding: 16px; background: rgba(2, 6, 18, .80);
-      backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px);
-      align-items: center; justify-content: center;
+    .result-box strong {
+        font-size: 23px;
     }
-    .modal-overlay.show { display: flex; }
-    .results {
-      display: block; position: relative; width: 100%; max-width: 520px;
-      max-height: calc(100vh - 32px); overflow-y: auto; margin: 0; padding: 24px;
-      border: 1px solid rgba(157, 178, 225, .25); border-radius: 24px;
-      background: linear-gradient(145deg, #18213b, #0d1325);
-      box-shadow: 0 25px 80px rgba(0, 0, 0, .65);
-      animation: popupIn .25s ease both;
-    }
-    @keyframes popupIn {
-      from { opacity: 0; transform: translateY(14px) scale(.97); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .result-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; padding-right: 34px; }
-    .result-heading h2 { margin: 0; font-size: 18px; letter-spacing: -.3px; }
-    .result-tag { color: #78e0c0; font-size: 11px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
-    .close-btn {
-      position: absolute; top: 13px; right: 13px; width: 36px; height: 36px; min-height: 36px;
-      margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 50%;
-      color: #dce5ff; background: rgba(255,255,255,.07); box-shadow: none;
-      font-size: 22px; line-height: 1;
-    }
-    .close-btn:hover { background: rgba(255,255,255,.14); box-shadow: none; }
-    .age-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .age-box {
-      min-width: 0; padding: 20px 8px; text-align: center; border-radius: 17px;
-      border: 1px solid rgba(126, 154, 255, .18);
-      background: linear-gradient(155deg, rgba(91, 119, 231, .16), rgba(25, 37, 68, .7));
-    }
-    .age-box:nth-child(2) { background: linear-gradient(155deg, rgba(64, 184, 205, .15), rgba(25, 37, 68, .7)); border-color: rgba(81, 214, 232, .18); }
-    .age-box:nth-child(3) { background: linear-gradient(155deg, rgba(167, 123, 255, .16), rgba(25, 37, 68, .7)); border-color: rgba(167, 123, 255, .18); }
-    .age-number { display: block; font-size: clamp(30px, 7vw, 43px); line-height: 1.1; font-weight: 850; letter-spacing: -1px; }
-    .age-box:nth-child(1) .age-number { color: #9db2ff; }
-    .age-box:nth-child(2) .age-number { color: #75dfec; }
-    .age-box:nth-child(3) .age-number { color: #c1a0ff; }
-    .age-label { display: block; margin-top: 7px; color: #a9b6d1; font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-    .extra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-    .extra { padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(8, 14, 29, .52); color: #d5def2; font-size: 13px; line-height: 1.55; }
-    .extra strong { display: block; margin-bottom: 4px; color: #8799c2; font-size: 11px; letter-spacing: .7px; text-transform: uppercase; }
-    .reset {
-      display: block; width: 100%; min-height: 46px; margin: 14px 0 0; padding: 10px 13px;
-      border: 1px solid var(--line); color: #dce5ff; background: rgba(255,255,255,.06);
-      box-shadow: none; font-size: 13px;
-    }
-    .reset:hover { background: rgba(255,255,255,.11); box-shadow: none; }
-    footer { margin-top: 22px; color: #71809f; text-align: center; font-size: 12px; line-height: 1.7; }
-    footer span { color: #9cadd0; }
-    @media (max-width: 520px) {
-      body { padding: 18px 12px; align-items: flex-start; }
-      .topline { margin-bottom: 13px; }
-      .privacy { font-size: 10px; }
-      .container { border-radius: 22px; }
-      .form-panel { padding: 17px; }
-      .modal-overlay { padding: 12px; }
-      .results { padding: 22px 16px 16px; border-radius: 20px; }
-      .age-grid { gap: 7px; }
-      .age-box { padding: 17px 4px; border-radius: 13px; }
-      .age-label { font-size: 10px; }
-      .extra-grid { grid-template-columns: 1fr; gap: 8px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-    }
-  </style>
+}
+</style>
 </head>
+
 <body>
-  <div class="page">
-    <header class="topline">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">✦</span>
-        <span>Age<span style="color:#8fa8ff">Wise</span></span>
-      </div>
-      <div class="privacy"><span class="privacy-dot"></span> Private &amp; secure</div>
-    </header>
 
-    <main class="container">
-      <section class="hero">
-        <div class="eyebrow">✧ Free online tool</div>
-        <h1>Discover your <span>exact age</span></h1>
-        <p class="intro">Every year, month and day matters. Enter your date of birth and find out exactly how long you have been on this planet.</p>
-      </section>
+<div class="container">
+    <div class="logo">AgeWise</div>
 
-      <section class="form-panel" aria-label="Age calculator form">
-        <label for="birthDate">Your date of birth</label>
-        <input type="date" id="birthDate" autocomplete="bday" required>
-        <p class="hint">Choose your birthday to calculate your age instantly.</p>
-        <button id="calculateBtn" type="button">Calculate my age&nbsp; →</button>
-        <div class="message" id="message" role="alert" aria-live="polite"></div>
-      </section>
-    </main>
+    <p class="subtitle">
+        Discover your exact age in years, months and days.
+    </p>
 
-    <footer>Made for life's little milestones. <span>Your date of birth stays on your device</span> — it is not uploaded or stored.</footer>
-  </div>
+    <h2>Age Calculator</h2>
 
-  <div class="modal-overlay" id="modalOverlay" aria-hidden="true">
-    <section class="results" id="results" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
-      <button class="close-btn" id="closeBtn" type="button" aria-label="Close result">×</button>
-      <div class="result-heading">
-        <h2 id="resultTitle">Your age breakdown</h2>
-        <span class="result-tag">✦ Complete</span>
-      </div>
-      <div class="age-grid">
-        <div class="age-box"><span class="age-number" id="years">0</span><span class="age-label">Years</span></div>
-        <div class="age-box"><span class="age-number" id="months">0</span><span class="age-label">Months</span></div>
-        <div class="age-box"><span class="age-number" id="days">0</span><span class="age-label">Days</span></div>
-      </div>
-      <div class="extra-grid">
-        <div class="extra" id="totalDays"><strong>Total days lived</strong>—</div>
-        <div class="extra" id="nextBirthday"><strong>Next birthday</strong>—</div>
-      </div>
-      <button class="reset" id="resetBtn" type="button">↺ Calculate another age</button>
-    </section>
-  </div>
+    <label for="birthDate">Enter Your Date of Birth</label>
 
-  <script>
-    const birthInput = document.getElementById('birthDate');
-    const message = document.getElementById('message');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const closeBtn = document.getElementById('closeBtn');
-    const resetBtn = document.getElementById('resetBtn');
+    <input type="date" id="birthDate">
 
-    function localDateString(date) {
-      return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
-    }
+    <button class="calculate-btn" onclick="calculateAge()">
+        Calculate My Age
+    </button>
 
-    function startOfDay(date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
+    <p id="error" class="error"></p>
 
-    function daysInMonth(year, monthIndex) {
-      return new Date(year, monthIndex + 1, 0).getDate();
-    }
+    <div class="footer">
+        Your privacy matters. Your date of birth is not stored.
+        <br>
+        © 2026 AgeWise. All rights reserved.
+    </div>
+</div>
 
-    function openModal() {
-      modalOverlay.classList.add('show');
-      modalOverlay.setAttribute('aria-hidden', 'false');
-      document.body.classList.add('modal-open');
-      closeBtn.focus();
-    }
+<!-- RESULT POPUP -->
+<div class="popup-overlay" id="popupOverlay"
+     onclick="outsideClose(event)">
 
-    function closeModal() {
-      modalOverlay.classList.remove('show');
-      modalOverlay.setAttribute('aria-hidden', 'true');
-      document.body.classList.remove('modal-open');
-      document.getElementById('calculateBtn').focus();
-    }
+    <div class="popup" role="dialog" aria-modal="true"
+         aria-labelledby="resultTitle">
 
-    function calculateAge() {
-      message.textContent = '';
+        <button class="close-btn" onclick="closePopup()"
+                aria-label="Close">×</button>
 
-      if (!birthInput.value) {
-        message.textContent = 'Please select your date of birth first.';
-        birthInput.focus();
+        <h2 id="resultTitle">Your Age Result</h2>
+
+        <div class="result-grid">
+            <div class="result-box">
+                <strong id="years">0</strong>
+                <span>Years</span>
+            </div>
+
+            <div class="result-box">
+                <strong id="months">0</strong>
+                <span>Months</span>
+            </div>
+
+            <div class="result-box">
+                <strong id="days">0</strong>
+                <span>Days</span>
+            </div>
+        </div>
+
+        <div class="extra-result">
+            Total Days Lived:
+            <strong id="totalDays">0</strong>
+        </div>
+
+        <div class="extra-result">
+            Next Birthday:
+            <strong id="nextBirthday">0 days</strong>
+        </div>
+
+        <button class="close-main-btn" onclick="closePopup()">
+            Done
+        </button>
+    </div>
+</div>
+
+<script>
+const birthInput = document.getElementById("birthDate");
+
+function calculateAge() {
+    const error = document.getElementById("error");
+    error.textContent = "";
+
+    if (!birthInput.value) {
+        error.textContent = "Please enter your date of birth.";
         return;
-      }
+    }
 
-      const [birthYear, birthMonth, birthDay] = birthInput.value.split('-').map(Number);
-      const birth = new Date(birthYear, birthMonth - 1, birthDay);
-      const now = startOfDay(new Date());
+    const parts = birthInput.value.split("-").map(Number);
 
-      if (birth > now) {
-        message.textContent = 'Date of birth cannot be in the future.';
+    const birth = new Date(
+        parts[0], parts[1] - 1, parts[2]
+    );
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (birth > today) {
+        error.textContent = "Date of birth cannot be in the future.";
         return;
-      }
+    }
 
-      let years = now.getFullYear() - birthYear;
-      let months = now.getMonth() - (birthMonth - 1);
-      let days = now.getDate() - birthDay;
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
 
-      if (days < 0) {
+    if (days < 0) {
         months--;
-        const previousMonth = (now.getMonth() - 1 + 12) % 12;
-        const previousMonthYear = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
-        days += daysInMonth(previousMonthYear, previousMonth);
-      }
-      if (months < 0) {
+
+        const previousMonthDays = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            0
+        ).getDate();
+
+        days += previousMonthDays;
+    }
+
+    if (months < 0) {
         years--;
         months += 12;
-      }
+    }
 
-      document.getElementById('years').textContent = years.toLocaleString('en-US');
-      document.getElementById('months').textContent = months.toLocaleString('en-US');
-      document.getElementById('days').textContent = days.toLocaleString('en-US');
+    const totalDays = Math.floor(
+        (today - birth) / (1000 * 60 * 60 * 24)
+    );
 
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const totalDays = Math.floor((now - birth) / millisecondsPerDay);
-      document.getElementById('totalDays').innerHTML =
-        '<strong>Total days lived</strong>' + totalDays.toLocaleString('en-US') + ' days';
+    let nextYear = today.getFullYear();
 
-      let nextYear = now.getFullYear();
-      let nextDate = new Date(nextYear, birthMonth - 1, Math.min(birthDay, daysInMonth(nextYear, birthMonth - 1)));
-      if (nextDate <= now) {
+    let nextBirthday = new Date(
+        nextYear,
+        birth.getMonth(),
+        birth.getDate()
+    );
+
+    if (nextBirthday <= today) {
         nextYear++;
-        nextDate = new Date(nextYear, birthMonth - 1, Math.min(birthDay, daysInMonth(nextYear, birthMonth - 1)));
-      }
-      const daysUntil = Math.round((nextDate - now) / millisecondsPerDay);
-      document.getElementById('nextBirthday').innerHTML =
-        '<strong>Next birthday</strong>' + daysUntil + ' day' + (daysUntil === 1 ? '' : 's') + ' to go';
-
-      openModal();
+        nextBirthday = new Date(
+            nextYear,
+            birth.getMonth(),
+            birth.getDate()
+        );
     }
 
-    function resetCalculator() {
-      birthInput.value = '';
-      message.textContent = '';
-      closeModal();
-      birthInput.focus();
+    const daysUntilBirthday = Math.ceil(
+        (nextBirthday - today) / (1000 * 60 * 60 * 24)
+    );
+
+    document.getElementById("years").textContent = years;
+    document.getElementById("months").textContent = months;
+    document.getElementById("days").textContent = days;
+
+    document.getElementById("totalDays").textContent =
+        totalDays.toLocaleString();
+
+    document.getElementById("nextBirthday").textContent =
+        daysUntilBirthday === 0
+        ? "Today! Happy Birthday!"
+        : daysUntilBirthday + " days";
+
+    // Show popup in the CENTER of the phone screen
+    document.getElementById("popupOverlay").classList.add("show");
+
+    document.body.style.overflow = "hidden";
+}
+
+function closePopup() {
+    document.getElementById("popupOverlay").classList.remove("show");
+    document.body.style.overflow = "";
+}
+
+function outsideClose(event) {
+    if (event.target.id === "popupOverlay") {
+        closePopup();
     }
+}
 
-    birthInput.max = localDateString(new Date());
-    document.getElementById('calculateBtn').addEventListener('click', calculateAge);
-    birthInput.addEventListener('change', () => { message.textContent = ''; });
-    closeBtn.addEventListener('click', closeModal);
-    resetBtn.addEventListener('click', resetCalculator);
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") {
+        closePopup();
+    }
+});
+</script>
 
-    modalOverlay.addEventListener('click', (event) => {
-      if (event.target === modalOverlay) closeModal();
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && modalOverlay.classList.contains('show')) closeModal();
-    });
-  </script>
 </body>
 </html>
