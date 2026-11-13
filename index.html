@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AgeWise - Exact Age Calculator</title>
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -37,7 +36,6 @@
             padding: 20px;
         }
 
-        /* Main Glass Card */
         .app-card {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
@@ -90,14 +88,13 @@
             margin-bottom: 32px;
         }
 
-        /* Form Controls */
         .input-group {
             background: rgba(10, 15, 26, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 20px;
             padding: 22px;
             text-align: left;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .input-group label {
@@ -157,104 +154,54 @@
             box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
         }
 
-        .calc-btn:active {
-            transform: translateY(0);
-        }
-
-        /* Modern Popup Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(4, 7, 13, 0.8);
-            backdrop-filter: blur(12px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        /* Result Section Inside the Main Card (No Scrolling Needed) */
+        .result-container {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-in;
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1000;
-            padding: 20px;
         }
 
-        .modal-overlay.active {
+        .result-container.show {
+            max-height: 300px;
             opacity: 1;
-            visibility: visible;
+            margin-top: 24px;
         }
 
-        .modal-box {
-            background: #0f172a;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 28px;
-            padding: 36px 28px;
-            max-width: 400px;
-            width: 100%;
+        .result-box-inner {
+            background: rgba(10, 15, 26, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 20px;
             text-align: center;
-            position: relative;
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
         }
 
-        .modal-overlay.active .modal-box {
-            transform: scale(1) translateY(0);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: none;
-            color: var(--text-sub);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            font-size: 18px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-        }
-
-        .close-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: #fff;
-        }
-
-        .modal-tag {
+        .success-tag {
             color: #34d399;
             font-size: 11px;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 1.2px;
             text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-
-        .modal-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 24px;
+            margin-bottom: 12px;
         }
 
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 14px;
         }
 
         .res-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 18px;
-            padding: 16px 8px;
+            border-radius: 14px;
+            padding: 12px 6px;
         }
 
         .res-card .num {
             display: block;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 800;
             background: linear-gradient(135deg, #a855f7, #ec4899);
             -webkit-background-clip: text;
@@ -262,22 +209,18 @@
         }
 
         .res-card .label {
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
             color: var(--text-sub);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-top: 4px;
+            margin-top: 2px;
+            display: block;
         }
 
         .extra-box {
-            font-size: 13px;
+            font-size: 12px;
             color: #cbd5e1;
-            line-height: 1.5;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
-            padding: 14px;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -297,31 +240,27 @@
         <button class="calc-btn" onclick="calculateAge()">
             Calculate my age <span>→</span>
         </button>
-    </div>
 
-    <!-- Smooth Glass Modal Popup -->
-    <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-box">
-            <button class="close-btn" onclick="closeModal()">✕</button>
-            <div class="modal-tag">✦ Calculation Complete</div>
-            <div class="modal-title">Your Age Breakdown</div>
-
-            <div class="results-grid">
-                <div class="res-card">
-                    <span class="num" id="years">0</span>
-                    <span class="label">Years</span>
+        <!-- Result Section inside the Card -->
+        <div class="result-container" id="resultContainer">
+            <div class="result-box-inner">
+                <div class="success-tag">✦ Calculation Complete</div>
+                <div class="results-grid">
+                    <div class="res-card">
+                        <span class="num" id="years">0</span>
+                        <span class="label">Years</span>
+                    </div>
+                    <div class="res-card">
+                        <span class="num" id="months">0</span>
+                        <span class="label">Months</span>
+                    </div>
+                    <div class="res-card">
+                        <span class="num" id="days">0</span>
+                        <span class="label">Days</span>
+                    </div>
                 </div>
-                <div class="res-card">
-                    <span class="num" id="months">0</span>
-                    <span class="label">Months</span>
-                </div>
-                <div class="res-card">
-                    <span class="num" id="days">0</span>
-                    <span class="label">Days</span>
-                </div>
+                <div class="extra-box" id="extraBox"></div>
             </div>
-
-            <div class="extra-box" id="extraBox"></div>
         </div>
     </div>
 
@@ -361,16 +300,8 @@
 
             document.getElementById('extraBox').innerHTML = `✨ You have lived approximately <b>${diffDays.toLocaleString()}</b> days (or <b>${diffWeeks.toLocaleString()}</b> weeks)!`;
 
-            document.getElementById('modalOverlay').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('modalOverlay').classList.remove('active');
-        }
-
-        window.onclick = function(e) {
-            const modal = document.getElementById('modalOverlay');
-            if (e.target === modal) closeModal();
+            // Smoothly slide down and show result inside the card
+            document.getElementById('resultContainer').classList.add('show');
         }
     </script>
 
