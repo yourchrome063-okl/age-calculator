@@ -1,277 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Calculate your exact age in years, months and days with this free online age calculator.">
-  <meta name="theme-color" content="#090d1b">
-  <title>AgeWise - Free Online Age Calculator</title>
-  <title>AgeWise - Free Online Age Calculator</title>
-<meta name="description" content="AgeWise is a free online age calculator. Calculate your exact age in years, months, and days instantly.">
-<style>
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #090d1b;
-      --panel: rgba(19, 27, 49, .88);
-      --panel-soft: #151e35;
-      --text: #f4f7ff;
-      --muted: #9aa8c5;
-      --line: rgba(157, 178, 225, .16);
-      --blue: #6d8cff;
-      --cyan: #51d6e8;
-      --purple: #a77bff;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; min-height: 100vh; padding: 28px 16px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(ellipse at 12% 8%, rgba(74, 105, 255, .22), transparent 34%),
-        radial-gradient(ellipse at 88% 22%, rgba(126, 74, 222, .18), transparent 32%),
-        radial-gradient(ellipse at 50% 100%, rgba(35, 183, 205, .10), transparent 38%),
-        var(--bg);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .page { width: 100%; max-width: 760px; }
-    .topline { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 2px 18px; }
-    .brand { display: flex; align-items: center; gap: 10px; color: #e9efff; font-weight: 750; letter-spacing: .2px; }
-    .brand-mark {
-      width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px;
-      color: white; background: linear-gradient(135deg, var(--blue), var(--purple));
-      box-shadow: 0 7px 24px rgba(109, 140, 255, .28);
-    }
-    .privacy { color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 6px; }
-    .privacy-dot { width: 7px; height: 7px; border-radius: 50%; background: #55d6a4; box-shadow: 0 0 12px #55d6a4; }
-    .container {
-      position: relative; overflow: hidden; width: 100%; padding: clamp(24px, 5vw, 44px);
-      border: 1px solid var(--line); border-radius: 28px;
-      background: linear-gradient(145deg, rgba(22, 31, 56, .96), rgba(13, 19, 37, .96));
-      box-shadow: 0 28px 90px rgba(0, 0, 0, .42), inset 0 1px 0 rgba(255,255,255,.04);
-    }
-    .container::before {
-      content: ""; position: absolute; width: 240px; height: 240px; border-radius: 50%;
-      right: -115px; top: -145px; background: rgba(112, 111, 255, .17); filter: blur(4px); pointer-events: none;
-    }
-    .hero { position: relative; text-align: center; margin-bottom: 30px; }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 8px; padding: 7px 12px; border-radius: 999px;
-      color: #b8c7ff; background: rgba(109, 140, 255, .11); border: 1px solid rgba(109, 140, 255, .22);
-      font-size: 11px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-    }
-    h1 { margin: 17px 0 10px; font-size: clamp(34px, 7vw, 52px); line-height: 1.08; letter-spacing: -1.8px; }
-    h1 span { background: linear-gradient(90deg, #8da8ff, #69d9ec 55%, #b18aff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .intro { max-width: 510px; margin: 0 auto; color: var(--muted); line-height: 1.7; font-size: 15px; }
-    .form-panel {
-      position: relative; padding: 22px; border: 1px solid var(--line); border-radius: 20px;
-      background: rgba(7, 12, 26, .42);
-    }
-    label { display: block; margin: 0 0 10px; color: #e7edff; font-size: 14px; font-weight: 700; }
-    .input-wrap { position: relative; }
-    input[type="date"] {
-      display: block; width: 100%; min-height: 56px; padding: 14px 16px;
-      border: 1px solid rgba(151, 173, 222, .23); border-radius: 13px;
-      color: var(--text); background: #111a30; font: inherit; font-size: 16px;
-      color-scheme: dark; outline: none; transition: border-color .2s, box-shadow .2s;
-    }
-    input[type="date"]:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(109, 140, 255, .14); }
-    .hint { margin: 9px 0 0; color: #8291b0; font-size: 12px; }
-    button {
-      width: 100%; min-height: 56px; margin-top: 16px; border: 0; border-radius: 13px;
-      padding: 15px 18px; color: white; font: inherit; font-weight: 800; font-size: 15px;
-      background: linear-gradient(100deg, #5279f5, #7865ed 58%, #8a60df);
-      box-shadow: 0 10px 25px rgba(91, 105, 239, .25); cursor: pointer;
-      transition: transform .18s, filter .18s, box-shadow .18s;
-    }
-    button:hover { filter: brightness(1.09); transform: translateY(-1px); box-shadow: 0 13px 30px rgba(91, 105, 239, .34); }
-    button:active { transform: translateY(0); }
-    button:focus-visible { outline: 3px solid #a9baff; outline-offset: 3px; }
-    .message { min-height: 20px; margin-top: 12px; color: #ff9caa; font-size: 13px; text-align: center; }
-    .results { display: none; margin-top: 28px; animation: appear .35s ease both; }
-    @keyframes appear { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .result-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
-    .result-heading h2 { margin: 0; font-size: 18px; letter-spacing: -.3px; }
-    .result-tag { color: #78e0c0; font-size: 11px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
-    .age-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-    .age-box {
-      min-width: 0; padding: 20px 8px; text-align: center; border-radius: 17px;
-      border: 1px solid rgba(126, 154, 255, .18);
-      background: linear-gradient(155deg, rgba(91, 119, 231, .16), rgba(25, 37, 68, .7));
-    }
-    .age-box:nth-child(2) { background: linear-gradient(155deg, rgba(64, 184, 205, .15), rgba(25, 37, 68, .7)); border-color: rgba(81, 214, 232, .18); }
-    .age-box:nth-child(3) { background: linear-gradient(155deg, rgba(167, 123, 255, .16), rgba(25, 37, 68, .7)); border-color: rgba(167, 123, 255, .18); }
-    .age-number { display: block; font-size: clamp(30px, 7vw, 43px); line-height: 1.1; font-weight: 850; letter-spacing: -1px; }
-    .age-box:nth-child(1) .age-number { color: #9db2ff; }
-    .age-box:nth-child(2) .age-number { color: #75dfec; }
-    .age-box:nth-child(3) .age-number { color: #c1a0ff; }
-    .age-label { display: block; margin-top: 7px; color: #a9b6d1; font-size: 12px; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; }
-    .extra-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
-    .extra { padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(8, 14, 29, .52); color: #d5def2; font-size: 13px; line-height: 1.55; }
-    .extra strong { display: block; margin-bottom: 4px; color: #8799c2; font-size: 11px; letter-spacing: .7px; text-transform: uppercase; }
-    .reset {
-      display: none; width: auto; min-height: 0; margin: 14px auto 0; padding: 8px 13px;
-      border: 1px solid var(--line); color: #b8c5e2; background: transparent; box-shadow: none; font-size: 12px;
-    }
-    .reset:hover { background: rgba(255,255,255,.05); box-shadow: none; }
-    footer { margin-top: 22px; color: #71809f; text-align: center; font-size: 12px; line-height: 1.7; }
-    footer span { color: #9cadd0; }
-    @media (max-width: 520px) {
-      body { padding: 18px 12px; align-items: flex-start; }
-      .topline { margin-bottom: 13px; }
-      .privacy { font-size: 10px; }
-      .container { border-radius: 22px; }
-      .form-panel { padding: 17px; }
-      .age-grid { gap: 7px; }
-      .age-box { padding: 17px 4px; border-radius: 13px; }
-      .age-label { font-size: 10px; }
-      .extra-grid { grid-template-columns: 1fr; gap: 8px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgeWise - Free Online Age Calculator</title>
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --card-bg: #161b22;
+            --primary-gradient: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+            background-color: #0d1117;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        button.calc-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: var(--primary-gradient);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        button.calc-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Modal Overlay Background */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        /* Active state for Popup */
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal Box Content */
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid #30363d;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: white;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .result-box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            padding: 12px 5px;
+            border-radius: 12px;
+        }
+
+        .card span {
+            display: block;
+            font-size: 18px;
+            font-weight: bold;
+            color: #a855f7;
+        }
+
+        .card label {
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .extra-info {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-  <div class="page">
-    <header class="topline">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">✦</span>
-        <span>Age<span style="color:#8fa8ff">Wise</span></span>
-      </div>
-      <div class="privacy"><span class="privacy-dot"></span> Private &amp; secure</div>
-    </header>
 
-    <main class="container">
-      <section class="hero">
-        <div class="eyebrow">✧ Free online tool</div>
-        <h1>Discover your <span>exact age</span></h1>
-        <p class="intro">Every year, month and day matters. Enter your date of birth and find out exactly how long you have been on this planet.</p>
-      </section>
-
-      <section class="form-panel" aria-label="Age calculator form">
-        <label for="birthDate">Your date of birth</label>
-        <div class="input-wrap">
-          <input type="date" id="birthDate" autocomplete="bday" required>
+    <div class="container">
+        <h2>AgeWise Calculator</h2>
+        <div class="input-group">
+            <label for="dob">Your date of birth</label>
+            <input type="date" id="dob">
         </div>
-        <p class="hint">Choose your birthday to calculate your age instantly.</p>
-        <button id="calculateBtn" type="button">Calculate my age&nbsp; →</button>
-        <div class="message" id="message" role="alert" aria-live="polite"></div>
-      </section>
+        <button class="calc-btn" onclick="calculateAge()">Calculate my age →</button>
+    </div>
 
-      <section class="results" id="results" aria-live="polite">
-        <div class="result-heading">
-          <h2>Your age breakdown</h2>
-          <span class="result-tag">✦ Calculation complete</span>
+    <!-- Result Popup Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">&times;</button>
+            <h3>Calculation Complete</h3>
+            
+            <div class="result-box">
+                <div class="card">
+                    <span id="years">0</span>
+                    <label>Years</label>
+                </div>
+                <div class="card">
+                    <span id="months">0</span>
+                    <label>Months</label>
+                </div>
+                <div class="card">
+                    <span id="days">0</span>
+                    <label>Days</label>
+                </div>
+            </div>
+
+            <div class="extra-info" id="extraInfo"></div>
         </div>
-        <div class="age-grid">
-          <div class="age-box"><span class="age-number" id="years">0</span><span class="age-label">Years</span></div>
-          <div class="age-box"><span class="age-number" id="months">0</span><span class="age-label">Months</span></div>
-          <div class="age-box"><span class="age-number" id="days">0</span><span class="age-label">Days</span></div>
-        </div>
-        <div class="extra-grid">
-          <div class="extra" id="totalDays"><strong>Total days lived</strong>—</div>
-          <div class="extra" id="nextBirthday"><strong>Next birthday</strong>—</div>
-        </div>
-        <button class="reset" id="resetBtn" type="button">↺ Calculate another age</button>
-      </section>
-    </main>
+    </div>
 
-    <footer>Made for life's little milestones. <span>Your date of birth stays on your device</span> — it is not uploaded or stored.</footer>
-  </div>
+    <script>
+        function calculateAge() {
+            const dobInput = document.getElementById('dob').value;
+            if (!dobInput) {
+                alert("Please select your date of birth!");
+                return;
+            }
 
-  <script>
-    const birthInput = document.getElementById('birthDate');
-    const message = document.getElementById('message');
-    const results = document.getElementById('results');
-    const resetBtn = document.getElementById('resetBtn');
+            const dob = new Date(dobInput);
+            const today = new Date();
 
-    function localDateString(date) {
-      return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
-    }
+            let years = today.getFullYear() - dob.getFullYear();
+            let months = today.getMonth() - dob.getMonth();
+            let days = today.getDate() - dob.getDate();
 
-    function startOfDay(date) {
-      return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-    }
+            if (days < 0) {
+                months--;
+                const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += prevMonth.getDate();
+            }
 
-    function daysInMonth(year, monthIndex) {
-      return new Date(year, monthIndex + 1, 0).getDate();
-    }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
 
-    function calculateAge() {
-      message.textContent = '';
-      results.style.display = 'none';
-      resetBtn.style.display = 'none';
+            // Set results in Modal
+            document.getElementById('years').innerText = years;
+            document.getElementById('months').innerText = months;
+            document.getElementById('days').innerText = days;
 
-      if (!birthInput.value) {
-        message.textContent = 'Please select your date of birth first.';
-        birthInput.focus();
-        return;
-      }
+            const diffTime = Math.abs(today - dob);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const diffWeeks = Math.floor(diffDays / 7);
 
-      const [birthYear, birthMonth, birthDay] = birthInput.value.split('-').map(Number);
-      const birth = new Date(birthYear, birthMonth - 1, birthDay);
-      const now = startOfDay(new Date());
+            document.getElementById('extraInfo').innerHTML = `✨ You have lived approximately <b>${diffDays.toLocaleString()}</b> days (or <b>${diffWeeks.toLocaleString()}</b> weeks)!`;
 
-      if (birth > now) {
-        message.textContent = 'Date of birth cannot be in the future.';
-        return;
-      }
+            // Open Modal Popup
+            document.getElementById('modalOverlay').classList.add('active');
+        }
 
-      let years = now.getFullYear() - birthYear;
-      let months = now.getMonth() - (birthMonth - 1);
-      let days = now.getDate() - birthDay;
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
 
-      if (days < 0) {
-        months--;
-        const previousMonth = (now.getMonth() - 1 + 12) % 12;
-        const previousMonthYear = now.getMonth() === 0 ? now.getFullYear() - 1 : now.getFullYear();
-        days += daysInMonth(previousMonthYear, previousMonth);
-      }
-      if (months < 0) {
-        years--;
-        months += 12;
-      }
+        // Close modal when clicking outside the box
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalOverlay');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
 
-      document.getElementById('years').textContent = years.toLocaleString('en-US');
-      document.getElementById('months').textContent = months.toLocaleString('en-US');
-      document.getElementById('days').textContent = days.toLocaleString('en-US');
-
-      const millisecondsPerDay = 24 * 60 * 60 * 1000;
-      const totalDays = Math.floor((now - birth) / millisecondsPerDay);
-      document.getElementById('totalDays').innerHTML =
-        '<strong>Total days lived</strong>' + totalDays.toLocaleString('en-US') + ' days';
-
-      let nextYear = now.getFullYear();
-      let nextDate = new Date(nextYear, birthMonth - 1, Math.min(birthDay, daysInMonth(nextYear, birthMonth - 1)));
-      if (nextDate <= now) {
-        nextYear++;
-        nextDate = new Date(nextYear, birthMonth - 1, Math.min(birthDay, daysInMonth(nextYear, birthMonth - 1)));
-      }
-      const daysUntil = Math.round((nextDate - now) / millisecondsPerDay);
-      document.getElementById('nextBirthday').innerHTML =
-        '<strong>Next birthday</strong>' + daysUntil + ' day' + (daysUntil === 1 ? '' : 's') + ' to go';
-
-      results.style.display = 'block';
-      resetBtn.style.display = 'block';
-    }
-
-    function resetCalculator() {
-      birthInput.value = '';
-      message.textContent = '';
-      results.style.display = 'none';
-      resetBtn.style.display = 'none';
-      birthInput.focus();
-    }
-
-    birthInput.max = localDateString(new Date());
-    document.getElementById('calculateBtn').addEventListener('click', calculateAge);
-    birthInput.addEventListener('change', () => {
-      message.textContent = '';
-      results.style.display = 'none';
-      resetBtn.style.display = 'none';
-    });
-    resetBtn.addEventListener('click', resetCalculator);
-  </script>
 </body>
 </html>
