@@ -3,229 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgeWise - Free Online Age Calculator</title>
+    <title>AgeWise - Exact Age Calculator</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --primary-gradient: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --bg: #090d16;
+            --card-bg: rgba(18, 26, 43, 0.75);
+            --border-glow: rgba(139, 92, 246, 0.25);
+            --primary-grad: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
+            --btn-hover: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #c026d3 100%);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg);
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(217, 70, 239, 0.12) 0px, transparent 50%);
             color: var(--text-main);
-            margin: 0;
-            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            padding: 20px;
         }
 
-        .container {
-            background-color: var(--card-bg);
-            border: 1px solid #30363d;
-            border-radius: 24px;
-            padding: 30px;
-            max-width: 450px;
+        /* Main Glass Card */
+        .app-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 40px var(--border-glow);
+            border-radius: 28px;
+            padding: 40px 28px;
+            max-width: 440px;
             width: 100%;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
         }
 
-        h2 {
-            text-align: center;
-            font-size: 24px;
-            margin-bottom: 20px;
-            background: var(--primary-gradient);
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: var(--text-sub);
+            margin-bottom: 24px;
+        }
+
+        .badge span { color: #8b5cf6; }
+
+        h1 {
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1.25;
+            letter-spacing: -0.8px;
+            margin-bottom: 14px;
+        }
+
+        h1 .glow-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .input-group {
-            margin-bottom: 20px;
+        .description {
+            font-size: 14px;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 32px;
         }
 
-        label {
+        /* Form Controls */
+        .input-group {
+            background: rgba(10, 15, 26, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 22px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .input-group label {
             display: block;
-            margin-bottom: 8px;
             font-size: 14px;
-            color: var(--text-muted);
+            font-weight: 700;
+            color: #f1f5f9;
+            margin-bottom: 12px;
         }
 
         input[type="date"] {
             width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            border: 1px solid #30363d;
-            background-color: #0d1117;
-            color: white;
-            font-size: 16px;
-            box-sizing: border-box;
+            padding: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #060911;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s;
+            color-scheme: dark;
         }
 
-        button.calc-btn {
+        input[type="date"]:focus {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .helper-text {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 10px;
+        }
+
+        .calc-btn {
             width: 100%;
-            padding: 14px;
+            padding: 18px;
             border: none;
-            border-radius: 12px;
-            background: var(--primary-gradient);
-            color: white;
+            border-radius: 16px;
+            background: var(--primary-grad);
+            color: #ffffff;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.3s;
+            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.4);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        button.calc-btn:hover {
-            opacity: 0.9;
+        .calc-btn:hover {
+            background: var(--btn-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
         }
 
-        /* Modal Overlay Background */
+        .calc-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Modern Popup Modal */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(5px);
+            inset: 0;
+            background: rgba(4, 7, 13, 0.8);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 1000;
+            padding: 20px;
         }
 
-        /* Active state for Popup */
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
 
-        /* Modal Box Content */
-        .modal-content {
-            background-color: var(--card-bg);
-            border: 1px solid #30363d;
-            border-radius: 20px;
-            padding: 30px;
+        .modal-box {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 28px;
+            padding: 36px 28px;
             max-width: 400px;
-            width: 90%;
+            width: 100%;
             text-align: center;
             position: relative;
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9);
         }
 
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
         }
 
         .close-btn {
             position: absolute;
-            top: 15px;
+            top: 20px;
             right: 20px;
-            background: none;
+            background: rgba(255, 255, 255, 0.05);
             border: none;
-            color: var(--text-muted);
-            font-size: 24px;
+            color: var(--text-sub);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 18px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
         }
 
         .close-btn:hover {
-            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
         }
 
-        .modal-content h3 {
-            margin-top: 0;
-            background: var(--primary-gradient);
+        .modal-tag {
+            color: #34d399;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .res-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            padding: 16px 8px;
+        }
+
+        .res-card .num {
+            display: block;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #a855f7, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .result-box {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .card {
-            background-color: #0d1117;
-            border: 1px solid #30363d;
-            padding: 12px 5px;
-            border-radius: 12px;
-        }
-
-        .card span {
-            display: block;
-            font-size: 18px;
-            font-weight: bold;
-            color: #a855f7;
-        }
-
-        .card label {
+        .res-card .label {
             font-size: 11px;
-            margin-top: 5px;
+            font-weight: 700;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 4px;
         }
 
-        .extra-info {
+        .extra-box {
             font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 15px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 14px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>AgeWise Calculator</h2>
+    <div class="app-card">
+        <div class="badge"><span>✦</span> Free Online Tool</div>
+        <h1>Discover your <span class="glow-text">exact age</span></h1>
+        <p class="description">Every year, month and day matters. Enter your date of birth and find out exactly how long you have been on this planet.</p>
+
         <div class="input-group">
             <label for="dob">Your date of birth</label>
             <input type="date" id="dob">
+            <div class="helper-text">Choose your birthday to calculate your age instantly.</div>
         </div>
-        <button class="calc-btn" onclick="calculateAge()">Calculate my age →</button>
+
+        <button class="calc-btn" onclick="calculateAge()">
+            Calculate my age <span>→</span>
+        </button>
     </div>
 
-    <!-- Result Popup Modal -->
+    <!-- Smooth Glass Modal Popup -->
     <div class="modal-overlay" id="modalOverlay">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <h3>Calculation Complete</h3>
-            
-            <div class="result-box">
-                <div class="card">
-                    <span id="years">0</span>
-                    <label>Years</label>
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <div class="modal-tag">✦ Calculation Complete</div>
+            <div class="modal-title">Your Age Breakdown</div>
+
+            <div class="results-grid">
+                <div class="res-card">
+                    <span class="num" id="years">0</span>
+                    <span class="label">Years</span>
                 </div>
-                <div class="card">
-                    <span id="months">0</span>
-                    <label>Months</label>
+                <div class="res-card">
+                    <span class="num" id="months">0</span>
+                    <span class="label">Months</span>
                 </div>
-                <div class="card">
-                    <span id="days">0</span>
-                    <label>Days</label>
+                <div class="res-card">
+                    <span class="num" id="days">0</span>
+                    <span class="label">Days</span>
                 </div>
             </div>
 
-            <div class="extra-info" id="extraInfo"></div>
+            <div class="extra-box" id="extraBox"></div>
         </div>
     </div>
 
     <script>
         function calculateAge() {
-            const dobInput = document.getElementById('dob').value;
-            if (!dobInput) {
+            const dobVal = document.getElementById('dob').value;
+            if (!dobVal) {
                 alert("Please select your date of birth!");
                 return;
             }
 
-            const dob = new Date(dobInput);
+            const dob = new Date(dobVal);
             const today = new Date();
 
             let years = today.getFullYear() - dob.getFullYear();
@@ -243,7 +351,6 @@
                 months += 12;
             }
 
-            // Set results in Modal
             document.getElementById('years').innerText = years;
             document.getElementById('months').innerText = months;
             document.getElementById('days').innerText = days;
@@ -252,9 +359,8 @@
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             const diffWeeks = Math.floor(diffDays / 7);
 
-            document.getElementById('extraInfo').innerHTML = `✨ You have lived approximately <b>${diffDays.toLocaleString()}</b> days (or <b>${diffWeeks.toLocaleString()}</b> weeks)!`;
+            document.getElementById('extraBox').innerHTML = `✨ You have lived approximately <b>${diffDays.toLocaleString()}</b> days (or <b>${diffWeeks.toLocaleString()}</b> weeks)!`;
 
-            // Open Modal Popup
             document.getElementById('modalOverlay').classList.add('active');
         }
 
@@ -262,12 +368,9 @@
             document.getElementById('modalOverlay').classList.remove('active');
         }
 
-        // Close modal when clicking outside the box
-        window.onclick = function(event) {
+        window.onclick = function(e) {
             const modal = document.getElementById('modalOverlay');
-            if (event.target === modal) {
-                closeModal();
-            }
+            if (e.target === modal) closeModal();
         }
     </script>
 
