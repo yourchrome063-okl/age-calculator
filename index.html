@@ -49,6 +49,62 @@
             text-align: center;
         }
 
+        /* Top Brand Header */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-grad);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.08);
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #34d399;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #34d399;
+        }
+
         .badge {
             display: inline-flex;
             align-items: center;
@@ -62,13 +118,13 @@
             letter-spacing: 1.2px;
             text-transform: uppercase;
             color: var(--text-sub);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .badge span { color: #8b5cf6; }
 
         h1 {
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 800;
             line-height: 1.25;
             letter-spacing: -0.8px;
@@ -85,7 +141,7 @@
             font-size: 14px;
             color: var(--text-sub);
             line-height: 1.6;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .input-group {
@@ -154,7 +210,7 @@
             box-shadow: 0 15px 35px rgba(139, 92, 246, 0.5);
         }
 
-        /* Result Section Inside the Main Card (No Scrolling Needed) */
+        /* Result Section Inside Card (No Scrolling) */
         .result-container {
             max-height: 0;
             overflow: hidden;
@@ -227,6 +283,18 @@
 <body>
 
     <div class="app-card">
+        <!-- Brand Header with AgeWise Logo & Private Status -->
+        <div class="brand-header">
+            <div class="logo-area">
+                <div class="logo-icon">⏳</div>
+                <div class="brand-name">AgeWise</div>
+            </div>
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                Private & secure
+            </div>
+        </div>
+
         <div class="badge"><span>✦</span> Free Online Tool</div>
         <h1>Discover your <span class="glow-text">exact age</span></h1>
         <p class="description">Every year, month and day matters. Enter your date of birth and find out exactly how long you have been on this planet.</p>
@@ -241,7 +309,7 @@
             Calculate my age <span>→</span>
         </button>
 
-        <!-- Result Section inside the Card -->
+        <!-- Result Section Inside Card -->
         <div class="result-container" id="resultContainer">
             <div class="result-box-inner">
                 <div class="success-tag">✦ Calculation Complete</div>
@@ -300,7 +368,7 @@
 
             document.getElementById('extraBox').innerHTML = `✨ You have lived approximately <b>${diffDays.toLocaleString()}</b> days (or <b>${diffWeeks.toLocaleString()}</b> weeks)!`;
 
-            // Smoothly slide down and show result inside the card
+            // Slide down and show result right inside the card
             document.getElementById('resultContainer').classList.add('show');
         }
     </script>
